@@ -13,7 +13,7 @@
 # limitations under the License.
 """Service to manage Direct Pay PAYBC Payments."""
 import base64
-from datetime import datetime, date
+from datetime import datetime
 from typing import Any, Dict
 from urllib.parse import unquote_plus, urlencode
 
@@ -33,7 +33,7 @@ from pay_api.utils.util import parse_url_params
 from .oauth_service import OAuthService
 from .payment_line_item import PaymentLineItem
 
-PAYBC_DATE_FORMAT = '%Y-%M-%d'
+PAYBC_DATE_FORMAT = '%Y-%m-%d'
 PAYBC_REVENUE_SEPARATOR = '|'
 DECIMAL_PRECISION = '.2f'
 
@@ -43,12 +43,12 @@ class DirectPayService(PaymentSystemService, OAuthService):
 
     def get_payment_system_url(self, invoice: Invoice, inv_ref: InvoiceReference, return_url: str):
         """Return the payment system url."""
-        today = date.today().strftime(PAYBC_DATE_FORMAT)
+        today = datetime.now().strftime(PAYBC_DATE_FORMAT)
 
         url_params_dict = {'trnDate': today,
                            'pbcRefNumber': current_app.config.get('PAYBC_DIRECT_PAY_REF_NUMBER'),
                            'glDate': today,
-                           'description': 'Direct Sale',
+                           'description': 'Direct_Sale',
                            'trnNumber': invoice.id,
                            'trnAmount': invoice.total,
                            'paymentMethod': PaymentMethod.CC.value,
