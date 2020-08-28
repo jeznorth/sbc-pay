@@ -29,7 +29,7 @@ jobs:
       - name: Set Deployment Environement Variables
         working-directory: .
         run: |
-          vaults='[{ "vault": "shared", "application": ["jwt", "keycloak", "nats", "svc-endpoints"]}, {"vault": "relationship","application": ["postgres-pay", "pay-api", "sentry"]}]'
+          vaults='[{ "vault": "shared", "application": ["jwt", "keycloak", "nats", "svc-endpoints", "web-urls"]}, {"vault": "relationship","application": ["postgres-pay", "pay-api", "sentry"]}]'
           ./scripts/1pass.sh ${{ secrets.op_parameters }} -m "secret" -e "${TAG_NAME}" -v "${vaults}" -a "${IMAGE_NAME}-${TAG_NAME}" -n ${{ secrets.OPENSHIFT_REPOSITORY_DEV}}
       - name: Log into registry
         run: echo "${{ secrets.OPENSHIFT_SA_TOKEN }}" | docker login ${{ secrets.OPENSHIFT_DOCKER_REGISTRY }} -u ${{ secrets.OPENSHIFT_SA_NAME}} --password-stdin
